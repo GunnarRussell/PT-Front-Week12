@@ -131,9 +131,8 @@ class DOMManager
 //new comment button
 $("#submit-comment").on("click", function()
 {
-    let name = $('#name').val();
-    let text = $('#new-comment-text').val();
-
+    let name = $('#name');
+    let text = $('#new-comment-text');
     //JS built-in time/date object
     let date = new Date();
     let day = date.toLocaleDateString();
@@ -147,12 +146,37 @@ $("#submit-comment").on("click", function()
     let time = date.toLocaleTimeString("en-US", options);
     let dateString = `${day} ${time}`;
 
-    //create the comment
-    DOMManager.createComment(name, text, dateString);
+    //data validation
+    if(name.val() == "")
+    {
+        //undo any style changes
+        name.css("border-color", "");
+        text.css("border-color", "");
 
-    //reset fields
-    $('#name').val("");
-    $('#new-comment-text').val("");
+        //highlight input field
+        name.css("border-color", "red");
+        alert("You must enter a name to leave a comment.");
+    }
+    else if(text.val() == "")
+    {
+        name.css("border-color", "");
+        text.css("border-color", "");
+
+        //highlight input field
+        text.css("border-color", "red");
+        alert("You must enter some text to leave a comment.");
+    }
+    else
+    {
+        //post comment
+        DOMManager.createComment(name.val(), text.val(), dateString);
+
+        //reset fields
+        name.val("");
+        text.val("");
+        name.css("border-color", "");
+        text.css("border-color", "");
+    }
 });
 
 function alertFunction()
