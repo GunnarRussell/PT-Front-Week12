@@ -24,7 +24,6 @@ class CommentService //CRUD: Create, Read, Update, and Delete
     static getAllComments() //return all comments from API
     {
         console.log("getting comments...")
-        console.log($.get(this.url));
         return $.get(this.url);
     }
 
@@ -51,7 +50,7 @@ class CommentService //CRUD: Create, Read, Update, and Delete
     {
         return $.ajax(
         {
-            url: this.url + `/${comment._id}`,
+            url: this.url + `/${id}`,
             type: "DELETE"
         });
     }
@@ -66,6 +65,21 @@ class DOMManager
         CommentService.getAllComments().then(comments => this.render(comments));
     }
 
+    static deleteComment(id)
+    {
+        console.log(`deleting comment #${id}...`);
+        //delete comment
+        CommentService.deleteComment(id)
+        .then(() => 
+        {
+            console.log("delete successful")
+            //refresh comments when promise is fulfilled
+            return CommentService.getAllComments();
+        })
+        .then((comments) => this.render(comments));
+
+    }
+
     static render(comments) //edit the DOM to add all of the comments
     {
         this.comments = comments;
@@ -75,9 +89,11 @@ class DOMManager
         
         for (let comment of comments) //for each comment in comments array
         {
+            //console.log(`rendering comment #${comment.id}`);
+            
             //insert HTML into the app div, containing the comment
             $("#app").append(
-                `<div id="${comment._id}" class="card shadow-sm comment">
+                `<div id="${comment.id}" class="card shadow-sm comment">
                     <h5 class="card-header comment-stuff">
                         <div style="float: left">${comment.name}</div>
                         <div style="float: right"><h6>${comment.createdAt}</h6></div>
@@ -85,6 +101,11 @@ class DOMManager
                     </h5>
                     <div class="card-body comment-stuff">
                         <p>${comment.text}</p>
+                        <button class="btn btn-outline-primary" onclick="alertFunction()">Reply</button>
+
+                        <button class="btn btn-outline-success" onclick="">Edit</button>
+
+                        <button class="btn btn-outline-danger" onclick="DOMManager.deleteComment('${comment.id}')">Delete</button>
                     </div>
                 </div>
                 `
@@ -92,6 +113,11 @@ class DOMManager
         }
 
     }
+}
+
+function alertFunction()
+{
+    alert("Replies are not functional at this time. :)");
 }
 
 DOMManager.getAllComments();
