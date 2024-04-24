@@ -1,11 +1,10 @@
 class Comment
 {
-    constructor(name, email, comment)
+    constructor(name, text, date)
     {
         this.name = name;
-        this.email = email;
+        this.text = text;
         this.date = date;
-        this.comment = comment;
     }
 }
 
@@ -65,7 +64,7 @@ class DOMManager
         CommentService.getAllComments().then(comments => this.render(comments));
     }
 
-    static deleteComment(id)
+    static deleteComment(id) //delete comment by ID
     {
         console.log(`deleting comment #${id}...`);
         //delete comment
@@ -76,8 +75,24 @@ class DOMManager
             //refresh comments when promise is fulfilled
             return CommentService.getAllComments();
         })
+        //re-render comments
         .then((comments) => this.render(comments));
 
+    }
+
+    static createComment(name, text, date) //create new comment
+    {
+        console.log(`creating new comment...`);
+        //create comment
+        CommentService.createComment(new Comment(name, text, date))
+        .then(() =>
+        {
+            console.log("new comment successful")
+            //refresh comments when promise is fulfilled
+            return CommentService.getAllComments();
+        })
+        //re-render comments
+        .then((comments) => this.render(comments));
     }
 
     static render(comments) //edit the DOM to add all of the comments
@@ -90,20 +105,18 @@ class DOMManager
         for (let comment of comments) //for each comment in comments array
         {
             //console.log(`rendering comment #${comment.id}`);
-            
+
             //insert HTML into the app div, containing the comment
             $("#app").append(
                 `<div id="${comment.id}" class="card shadow-sm comment">
                     <h5 class="card-header comment-stuff">
                         <div style="float: left">${comment.name}</div>
-                        <div style="float: right"><h6>${comment.createdAt}</h6></div>
+                        <div style="float: right"><h6>${comment.date}</h6></div>
                         <div style="clear: both;"></div>
                     </h5>
                     <div class="card-body comment-stuff">
                         <p>${comment.text}</p>
                         <button class="btn btn-outline-primary" onclick="alertFunction()">Reply</button>
-
-                        <button class="btn btn-outline-success" onclick="">Edit</button>
 
                         <button class="btn btn-outline-danger" onclick="DOMManager.deleteComment('${comment.id}')">Delete</button>
                     </div>
@@ -115,9 +128,37 @@ class DOMManager
     }
 }
 
+//new comment button
+$("#submit-comment").on("click", function()
+{
+    let name = $('#name').val();
+    let text = $('#new-comment-text').val();
+
+    //JS built-in time/date object
+    let date = new Date();
+    let day = date.toLocaleDateString();
+    var options =
+    {
+        hour12: true,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    }
+    let time = date.toLocaleTimeString("en-US", options);
+    let dateString = `${day} ${time}`;
+
+    //create the comment
+    DOMManager.createComment(name, text, dateString);
+
+    //reset fields
+    $('#name').val("");
+    $('#new-comment-text').val("");
+});
+
 function alertFunction()
 {
     alert("Replies are not functional at this time. :)");
 }
 
+//when page loads, get comments from API
 DOMManager.getAllComments();
