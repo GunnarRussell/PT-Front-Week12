@@ -12,3 +12,94 @@
 {
     margin-bottom: 7px;
 }
+
+.card-red
+{
+    border-color: red;
+    color: red;
+}
+
+.card-header-red
+{
+    border-color: red;
+    color: red;
+    background-color: rgb(255, 212, 212);
+}
+
+.card-orange
+{
+    border-color: rgb(255, 153, 0);
+    color: rgb(255, 153, 0);
+}
+
+.card-header-orange
+{
+    border-color: rgb(233, 145, 13);
+    color: rgb(233, 145, 13);
+    background-color:  rgb(255, 234, 202);
+}
+
+.card-yellow
+{
+    border-color: rgb(185, 185, 9);
+    color: rgb(185, 185, 9);
+}
+
+.card-header-yellow
+{
+    border-color: rgb(185, 185, 9);
+    color: rgb(185, 185, 9);
+    background-color:  rgb(252, 252, 232);
+}
+
+.card-green
+{
+    border-color: green;
+    color: green;
+}
+
+.card-header-green
+{
+    border-color: green;
+    color: green;
+    background-color: rgb(198, 236, 198);
+}
+
+.card-blue
+{
+    border-color: blue;
+    color: blue;
+}
+
+.card-header-blue
+{
+    border-color: blue;
+    color: blue;
+    background-color: rgb(227, 227, 255);
+}
+
+.card-purple
+{
+    border-color: purple;
+    color: purple
+}
+
+.card-header-purple
+{
+    border-color: purple;
+    color: purple;
+    background-color: rgb(241, 206, 241);
+}
+
+.card-grey
+{
+    border-color: grey;
+    color: grey;
+}
+
+.card-header-grey
+{
+    border-color: grey;
+    color: grey;
+    background-color: rgb(244, 244, 244)
+}

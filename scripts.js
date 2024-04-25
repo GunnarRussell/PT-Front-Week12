@@ -5,6 +5,7 @@ class Comment
         this.name = name;
         this.text = text;
         this.date = date;
+        this.color = randomColor();
     }
 }
 
@@ -108,8 +109,8 @@ class DOMManager
 
             //insert HTML into the app div, containing the comment
             $("#app").append(
-                `<div id="${comment.id}" class="card shadow-sm comment">
-                    <h5 class="card-header comment-stuff">
+                `<div id="${comment.id}" class="card card-${comment.color} shadow-sm comment">
+                    <h5 class="card-header card-header-${comment.color} comment-stuff">
                         <div style="float: left">${comment.name}</div>
                         <div style="float: right"><h6>${comment.date}</h6></div>
                         <div style="clear: both;"></div>
@@ -178,6 +179,41 @@ $("#submit-comment").on("click", function()
         text.css("border-color", "");
     }
 });
+
+//misc functions
+function randomColor() 
+{
+    let randomNum = Math.floor(Math.random() * (7 - 1) + 1);
+
+    if(randomNum == 1)
+    {
+        return "red";
+    }
+    else if(randomNum == 2)
+    {
+        return "orange";
+    }
+    else if(randomNum == 3)
+    {
+        return "yellow";
+    }
+    else if(randomNum == 4)
+    {
+        return "green";
+    }
+    else if(randomNum == 5)
+    {
+        return "grey";
+    }
+    else if(randomNum == 6)
+    {
+        return "blue";
+    }
+    else if(randomNum == 7)
+    {
+        return "purple";
+    }
+}
 
 function alertFunction()
 {
